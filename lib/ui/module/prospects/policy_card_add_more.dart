@@ -122,7 +122,7 @@ class PolicyAddMorePage extends AppPageWithAppBar {
             labelAndTextField("Premium", "", premiumController, "number", 12,
                 TextCapitalization.words, TextInputType.number,[FilteringTextInputFormatter.digitsOnly],),
             labelAndTextField("Remark", "", remarkController, "text", 250,
-                TextCapitalization.sentences, TextInputType.text, [FilteringTextInputFormatter.allow(RegExp("a-za-z0-9\u0020-\u007e-\u0024-\u00a9")),]),
+                TextCapitalization.sentences, TextInputType.text, [FilteringTextInputFormatter.allow(RegExp("[a-za-z0-9\u0020-\u007e-\u0024-\u00a9]")),]),
             uploadDoc(
               "Upload Doc",
               "Click here",

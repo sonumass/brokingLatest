@@ -845,10 +845,10 @@ class CreateAddProspectPage extends AppPageWithAppBar {
               Common.showToast("Please enter Prospect Address");
               return;
             }
-            if (stateController.text.isEmpty) {
+            /*if (stateController.text.isEmpty) {
               Common.showToast("Please enter state");
               return;
-            }
+            }*/
             Get.back();
             controller.addProspectDetail(
                 prospectName: nameController.text,

@@ -68,6 +68,7 @@ class ProspectDetailCard extends BaseStateLessWidget {
 
   @override
   Widget build(BuildContext context) {
+    cityList.add(CityData(id: "0", stateId: "0", cityName: "Select City"));
     return card;
   }
 
