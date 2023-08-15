@@ -20,6 +20,10 @@
 		<string>$(FLUTTER_BUILD_NAME)</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>$(PRODUCT_NAME) Needed to access address always when the app is open.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>$(PRODUCT_NAME) needs access to you current address.</string>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
@@ -29,6 +33,10 @@
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
 		<key>UISupportedInterfaceOrientations</key>
+		<string>$(PRODUCT_NAME) To choose photos from photo gallery for sharing with you peers .</string>
+        	<key>NSPhotoLibraryUsageDescription</key>
+        	<string>$(PRODUCT_NAME) To choose photos from photo gallery for sharing with you peers .</string>
+        	<key>UIBackgroundModes</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
 			<string>UIInterfaceOrientationLandscapeLeft</string>
@@ -49,5 +57,11 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSCalendarsUsageDescription</key>
+        	<string>Create events</string>
+        	<key>NSContactsUsageDescription</key>
+        	<string>Add people to event</string>
+        	<key>CADisableMinimumFrameDurationOnPhone</key>
+        	<true/>
 	</dict>
 </plist>

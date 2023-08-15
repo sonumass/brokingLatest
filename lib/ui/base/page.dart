@@ -116,7 +116,7 @@ class AppPageWithAppBar extends AppPage {
       elevation: 0,
       titleSpacing: 0,
       centerTitle: centerTitle,
-      backgroundColor: MyColors.themeColor,
+      backgroundColor: Palette.appBar,
       toolbarHeight: toolbarHeight,
       systemOverlayStyle: SystemUiOverlayStyle.dark
           .copyWith(statusBarColor: Colors.transparent),
@@ -146,7 +146,6 @@ class AppPageWithAppBar extends AppPage {
   @override
   Widget build(BuildContext context) {
     Widget content = Scaffold(
-      appBar: appBar,
       body: body,
       floatingActionButton: null,
       floatingActionButtonLocation: null,

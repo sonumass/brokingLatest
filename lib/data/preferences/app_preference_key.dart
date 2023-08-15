@@ -10,6 +10,9 @@ class AppPreferenceKey {
   static const String img = "img";
   static const String mobile = "mobile";
   static const String refferalCode = "refferalCode";
+  static const String officeId="officeId";
+  static const String type ="type";
+  static const String phone ="phone";
 
   static const String userExist = "userExist";
   static const String loggedIn = "loggedIn";

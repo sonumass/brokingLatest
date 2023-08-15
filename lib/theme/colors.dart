@@ -1,19 +1,19 @@
 part of "my_theme.dart";
 
 class MyColors {
-  static const MaterialColor appColor = MaterialColor(0xFFB8DAE6, {
-    50: Color(0x86B8DAE6),
-    100: Color(0x11B8DAE6),
-    200: Color(0x22B8DAE6),
-    300: Color(0x33B8DAE6),
-    400: Color(0x44B8DAE6),
-    500: Color(0x55B8DAE6),
-    600: Color(0x66B8DAE6),
-    700: Color(0x77B8DAE6),
-    800: Color(0x88B8DAE6),
-    900: Color(0x99B8DAE6),
+  static const MaterialColor appColor = MaterialColor(0xFF3b2970, {
+    50: Color(0x863b2970),
+    100: Color(0x113b2970),
+    200: Color(0x223b2970),
+    300: Color(0x333b2970),
+    400: Color(0x443b2970),
+    500: Color(0x553b2970),
+    600: Color(0x663b2970),
+    700: Color(0x773b2970),
+    800: Color(0x883b2970),
+    900: Color(0x993b2970),
   });
-  static const Color backgroundBg = Color(0xfff3f2f2);
+  static const Color backgroundBg = Color(0xffc2ade0);
   static const Color colorPrimary = Color(0xffB8DAE6);
   static const Color colorPrimaryDark = Color(0xffB8DAE6);
   static const Color colorTextGrey = Color(0xff7C7C7C);
@@ -21,7 +21,7 @@ class MyColors {
   static const Color colorPageBg = Colors.white;
   static const Color colorWhite = Colors.white;
   static const Color coloPageBg = Colors.white;
-  static const Color themeColor = Color(0xff50A99D);
+  static const Color themeColor = Color(0xff3b2970);
   static const Color buttonColor = appColor;
   static const Color statusBarColor = appColor;
   static const Color transparent = Color(0x00FFFFFF);

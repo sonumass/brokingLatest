@@ -2,7 +2,7 @@ class LoginData {
   LoginData({
       required this.id,
     required this.type,
-    required this.username,
+    required this.userName,
     required this.password,
     required this.email,
     required this.firstName,
@@ -13,17 +13,17 @@ class LoginData {
   LoginData.fromJson(dynamic json) {
     id = json['id']??"";
     type = json['type']??"";
-    username = json['username']??"";
+    userName = json['userName']??"";
     password = json['password']??"";
     email = json['email']??"";
-    firstName = json['first_name']??"";
-    lastName = json['last_name']??"";
+    firstName = json['firstName']??"";
+    lastName = json['lastName']??"";
     phone = json['phone']??"";
-    officeId = json['office_id']??"";
+    officeId = json['officeId']??"";
   }
   String id="";
   String type="";
-  String username="";
+  String userName="";
   String password="";
   String email="";
   String firstName="";
@@ -35,13 +35,13 @@ class LoginData {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['type'] = type;
-    map['username'] = username;
+    map['userName'] = userName;
     map['password'] = password;
     map['email'] = email;
-    map['first_name'] = firstName;
-    map['last_name'] = lastName;
+    map['firstName'] = firstName;
+    map['lastName'] = lastName;
     map['phone'] = phone;
-    map['office_id'] = officeId;
+    map['officeId'] = officeId;
     return map;
   }
 

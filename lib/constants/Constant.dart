@@ -1,5 +1,5 @@
 class Constant {
-  static const String ALL_RIGHT_RESERVED = "Jumpq All rights are reserved ";
+  static const String ALL_RIGHT_RESERVED = "3ditec.co.in All rights are reserved ";
   static const String baseUrl = "https://3ditec.co.in";
   static const String webViewBaseUrl = "https://3ditec.co.in";
   static const String DARK_THEME = "dark_theme";

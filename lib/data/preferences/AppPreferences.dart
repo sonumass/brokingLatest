@@ -90,6 +90,28 @@ class AppPreferences {
   String get address {
     return _getString(AppPreferenceKey.address, defaultValue: "")!;
   }
+  Future<void> saveOfficeId(String address) {
+    return _saveString(AppPreferenceKey.officeId, address);
+  }
+
+  String get officeId {
+    return _getString(AppPreferenceKey.officeId, defaultValue: "")!;
+  }
+
+  Future<void> saveLoginType(String address) {
+    return _saveString(AppPreferenceKey.type, address);
+  }
+
+  String get loginType {
+    return _getString(AppPreferenceKey.type, defaultValue: "")!;
+  }
+  Future<void> saveUserPhone(String address) {
+    return _saveString(AppPreferenceKey.phone, address);
+  }
+
+  String get userPhone {
+    return _getString(AppPreferenceKey.phone, defaultValue: "")!;
+  }
 
   Future<void> saveImg(String img) {
     return _saveString(AppPreferenceKey.img, img);

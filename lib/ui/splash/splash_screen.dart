@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:broking/controllers/reminder/alarm_controller.dart';
+import 'package:broking/ui/module/dashboard/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/preferences/AppPreferences.dart';
 import '../../services/navigator.dart';
 import '../../theme/my_theme.dart';
+import '../../utils/palette.dart';
 import '../commonWidget/text_style.dart';
 import '../module/login/login_page.dart';
 
@@ -23,7 +25,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final appPreferences = Get.find<AppPreferences>();
   //final controller = Get.put(SplashController());
-
   @override
   void initState() {
     super.initState();
@@ -36,7 +37,12 @@ class _SplashScreenState extends State<SplashScreen> {
 // Here you can write your code
 
       setState(() {
-        LoginPage.start();
+        if(appPreferences.isLoggedIn){
+          DashboardPage.start();
+        }else{
+          LoginPage.start();
+        }
+
         // Here you can write your code for open new view
       });
 
@@ -58,17 +64,32 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.kColorWhite,
-      body: SizedBox(
+      body: Container(
+        decoration:  const BoxDecoration(
+          // Box decoration takes a gradient
+          gradient: LinearGradient(
+            // Where the linear gradient begins and ends
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            // Add one stop for each color. Stops should increase from 0 to 1
+            stops: [0.30, 0.70],
+            colors: [
+              // Colors are easy thanks to Flutter's Colors class.
+              Palette.backgroundBgTopLeft,
+              Palette.backgroundBgBottomLeft,
+            ],
+          ),
+        ),child: SizedBox(
         height: double.infinity,
         width: double.maxFinite,
         child: Center(
           child: Image.asset(
             "assets/png/app_logo.png",
-            width: size_100,
-            height: size_100,
+            width: 100,
+            height: 100,
           ),
         ),
-      ),
+      ),),
     );
   }
 

@@ -4,19 +4,32 @@ import 'package:flutter/widgets.dart';
 class Palette {
   Palette._();
 
-  static const MaterialColor appColor = MaterialColor(0xFFB8DAE6, {
-    50: Color(0x86B8DAE6),
-    100: Color(0x11B8DAE6),
-    200: Color(0x22B8DAE6),
-    300: Color(0x33B8DAE6),
-    400: Color(0x44B8DAE6),
-    500: Color(0x55B8DAE6),
-    600: Color(0x66B8DAE6),
-    700: Color(0x77B8DAE6),
-    800: Color(0x88B8DAE6),
-    900: Color(0x99B8DAE6),
+  static const MaterialColor appColor = MaterialColor(0xFF8F2960, {
+    50: Color(0x868F2960),
+    100: Color(0x118F2960),
+    200: Color(0x228F2960),
+    300: Color(0x338F2960),
+    400: Color(0x448F2960),
+    500: Color(0x558F2960),
+    600: Color(0x668F2960),
+    700: Color(0x778F2960),
+    800: Color(0x888F2960),
+    900: Color(0x998F2960),
   });
-  static const Color backgroundBg = Color(0xfff3f2f2);
+
+  static const Color prospectCardTextColor = Color(0xff392A64);
+  static const Color cardHeader = Color(0xff824182);
+  static const Color searchView = Color(0xff5B436F);
+  static const Color lightColor = Color(0xffBCADC4);
+  static const Color iconbgColor = Color(0xff341652);
+  static const Color textBgColor = Color(0xff8B6AE5);
+
+  static const Color appBar = Color(0xff7A3062);
+  static const Color backgroundBgFirst = Color(0xff8F2960);
+  static const Color backgroundBgBottomLeft = Color(0xff393C77);
+  static const Color backgroundBgTopLeft = Color(0xff8D2961);
+  static const Color backgroundBgSec = Color(0xff2C3F7A);
+  static const Color backgroundBg = Color(0xffc2ade0);
   static const Color colorPrimary = Color(0xffB8DAE6);
   static const Color colorPrimaryDark = Color(0xffB8DAE6);
   static const Color colorTextGrey = Color(0xff7C7C7C);
@@ -24,6 +37,12 @@ class Palette {
   static const Color colorPageBg = Colors.white;
   static const Color colorWhite = Colors.white;
   static const Color coloPageBg = Colors.white;
+  static const Color labelColor = Colors.black;
+  static const Color labelHintColor = Colors.grey;
+  static const Color textColor = Color(0xFF282828);
+  static const Color cardBg = Color(0xff9577d5);
+  static const Color textOnThemeBg = Color(0xffFAFAFA);
+
 
   static Color transparent = Color(0x00FFFFFF);
   static const Color backgroundWhiteColor = Color(0xffFAFAFA);
@@ -86,6 +105,7 @@ class Palette {
   static const Color lineColor = Color.fromRGBO(241, 241, 241, 1);
 
   static const Color kColorBlack = Colors.black;
+  static const Color textHeadingColor = Color(0xFF392A64);
   static const Color kColorBlack50 = Color(0x05000000);
   static const Color kColorBlack100 = Color(0x10000000);
   static const Color kColorBlack200 = Color(0x22000000);

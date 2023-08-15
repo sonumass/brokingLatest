@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
@@ -6,7 +7,9 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';*/
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -17,11 +20,17 @@ class Common {
   static Options getOptions(String authToken) {
     return Options(headers: {"Authorization": authToken, "device": "mobile"});
   }
-
   static showToast(String message) {
-    return Toast.show(message, duration: Toast.lengthShort, gravity:  Toast.bottom);
+    Fluttertoast.showToast(
+        msg: message,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+    //return Toast.show(message, duration: Toast.lengthShort, gravity:  Toast.bottom);
   }
-
   /*static Widget productAllNavigation(String text,
       {required VoidCallback callback}) {
     return Padding(
@@ -161,6 +170,17 @@ class Common {
       },
     );
   }
+  static String? readByteConvertBase64(String path){
+    try{
+      var file= File.fromUri(Uri.parse(path));
+      List<int> bytes = file.readAsBytesSync();
+      return base64UrlEncode(bytes).toString();
+    }catch(e){
+      debugPrint(e.toString());
+      return null;
+    }
+
+  }
   static Future<void> share({linkUrl,title,chooserTitle,text}) async {
     await FlutterShare.share(
         title: title??"",
@@ -169,5 +189,7 @@ class Common {
         chooserTitle: chooserTitle??""
     );
   }
-
+static void setAlarm(int hr,int min,String title){
+    FlutterAlarmClock.createAlarm(hr, min,title: title);
+}
 }

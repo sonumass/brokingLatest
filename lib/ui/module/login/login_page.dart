@@ -1,21 +1,27 @@
-import 'package:broking/ui/module/dashboard/dashboard_page.dart';
-import 'package:dropdown_button2/custom_dropdown_button2.dart';
+import 'package:broking/controllers/login/login_forgot_controller.dart';
+import 'package:broking/utils/common_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import '../../../controllers/login/login_controller.dart';
 import '../../../services/navigator.dart';
 import '../../../theme/my_theme.dart';
 import '../../../utils/palette.dart';
 import '../../base/page.dart';
+import '../../commonWidget/custom_drop_down.dart';
 import '../../commonWidget/primary_elevated_button.dart';
 import '../../commonwidget/text_style.dart';
+import '../../dialog/loader.dart';
+import '../dashboard/dashboard_page.dart';
 import 'forgot_password_page.dart';
 
 class LoginPage extends AppPageWithAppBar {
   static const String routeName = "/login";
   final loginController = Get.put(LoginController());
+  double? get toolbarHeight => 0;
+  final RxBool _obscureText =true.obs;
+
+
   LoginPage({Key? key}) : super(key: key);
 
   static Future<bool?> start<bool>() {
@@ -38,190 +44,288 @@ class LoginPage extends AppPageWithAppBar {
   ];
   final selectedValue = "Item2".obs;
 
+
+//  final TextEditingController _textEditingController = loginController.passwordController;
+
+
   @override
-  double? get toolbarHeight => 0;
+
 
   @override
   Widget get body {
-    return Scaffold(
-        backgroundColor: Palette.kColorWhite,
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: screenHeight / 3,
-                child: Center(child: companyLogo,),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Card(
-                  elevation: 3,
-                  child: Padding(padding: const EdgeInsets.all(10),child: Column(
-                    children: [
-                      SizedBox(
-                        height: 50,
-                        width: screenWidget,
-                        child: Obx(
-                              () => CustomDropdownButton2(
-                            icon: const Icon(Icons.arrow_drop_down),
-                            dropdownDecoration: const BoxDecoration(borderRadius: BorderRadius.all(
-                                Radius.circular(20.0) //                 <--- border radius here
-                            ),),
-                            iconSize: 30,
-                            hint: 'Select Item',
-                            dropdownItems: items,
-                            value: selectedValue.value,
-                            onChanged: (value) {
-                              selectedValue.value = value!;
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10,),
-                      email,
-                      const SizedBox(height: 10,),
-                      password,
-                      const SizedBox(height: 10,),
-                      Align(alignment: Alignment.centerRight,child: skipText,),
-                      const SizedBox(height: 10,),
-                      loginButton(screenWidget),
-
-                    ],
-                  ),),
+    return Obx(() => loginController.isLoader.value
+        ? const Loader()
+        : Container(
+              padding: const EdgeInsets.only(left: 30, right: 30,top: 20),
+              width: screenWidget,
+              height: screenHeight,
+              decoration: const BoxDecoration(
+                // Box decoration takes a gradient
+                gradient: LinearGradient(
+                  // Where the linear gradient begins and ends
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  // Add one stop for each color. Stops should increase from 0 to 1
+                  stops: [0.30, 0.70],
+                  colors: [
+                    // Colors are easy thanks to Flutter's Colors class.
+                    Palette.backgroundBgTopLeft,
+                    Palette.backgroundBgBottomLeft,
+                  ],
                 ),
-              )
-            ],
-          ),
-        ));
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: screenHeight / 4,
+                      child: Center(
+                        child: companyLogo,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "WELCOME!",
+                      style: TextStyles.headingTexStyle(
+                        letterSpacing:2,
+                        color: Palette.kColorWhite,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "An app fit for kings!",
+                      style: TextStyles.headingTexStyle(
+                        color: Palette.kColorWhite,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Sign in to continue",
+                      style: TextStyles.headingTexStyle(
+                        color: Palette.kColorWhite,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 40),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: screenWidget,
+                            child: Obx(
+                              () => CustomDropdown(
+                                dropdownPadding: const EdgeInsets.only(left: 10),
+                                icon:  const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Palette.kColorWhite,
+                                ),
+                                dropdownDecoration: const BoxDecoration(
+                                    color: Palette.backgroundBgFirst),
+                                iconSize: 30,
+                                hint: 'Select',
+                                dropdownItems: loginController.typeList,
+                                value: loginController.selectTypeValue.value,
+                                onChanged: (value) {
+                                  loginController.selectTypeValue.value =
+                                      value!;
+                                },
+                              ),
+                            ),
+                          ),
+                          const Divider(
+                            color: Palette.kColorWhite,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          email,
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          password,
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          loginButton(screenWidget),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          skipText,
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ));
   }
 
+  Widget get enterMobileNUmberText {
+    return Padding(
+      padding: const EdgeInsets.only(left: 30),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: SizedBox(
+          height: 20,
+          child: Text(
+            "MOBILE NUMBER",
+            style: TextStyles.headingTexStyle(
+              color: MyColors.kColorGrey,
+              fontSize: 15,
+              fontWeight: FontWeight.normal,
+              fontFamily: 'Montserrat',
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-Widget get enterMobileNUmberText {
-  return Padding(
-    padding: const EdgeInsets.only(left: 30),
-    child: Align(
-      alignment: Alignment.centerLeft,
+  Widget get labelText {
+    return SizedBox(
+      height: 20,
+      child: Text(
+        "We'll send you a verification code on the mobile number",
+        style: TextStyles.labelTextStyle(color: Palette.colorTextGrey),
+      ),
+    );
+  }
+
+  Widget get email {
+    return Padding(
+      padding: const EdgeInsets.only(left: 0, right: 0),
+      child: TextField(
+        cursorColor: Colors.white,
+        maxLength: 200,
+        style: TextStyles.headingTexStyle(
+          color: Palette.kColorWhite,
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+          fontFamily: 'Montserrat',
+        ),
+        textAlign: TextAlign.left,
+
+        controller: loginController.userNameController,
+        decoration:  InputDecoration(
+            hintText: "Enter your user name",
+            labelText: "User name",
+            hintStyle: const TextStyle(color: Palette.colorWhite),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white, width: .50),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white, width: .5),
+            ),
+            labelStyle: TextStyles.headingTexStyle(
+
+              color: Palette.colorWhite,
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+              fontFamily: 'Montserrat',
+            )),
+      ),
+    );
+  }
+
+  Widget get password {
+    return Padding(
+      padding: const EdgeInsets.only(left: 0, right: 0),
+      child: Obx(() => TextField(
+        obscureText: _obscureText.value,
+        cursorColor: Colors.white,
+        maxLength: 20,
+        style: TextStyles.headingTexStyle(
+          color: Palette.kColorWhite,
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+          fontFamily: 'Montserrat',
+        ),
+        textAlign: TextAlign.left,
+        controller: loginController.passwordController,
+        decoration:  InputDecoration(
+            suffixIcon: GestureDetector(onTap: (){
+              _obscureText.toggle();
+            },child: Icon(_obscureText.value ? Icons.visibility : Icons.visibility_off,color: Palette.kColorWhite,)
+              ),
+            hintText: "Enter your password",
+            labelText: "Password",
+            hintStyle: const TextStyle(color: Palette.coloPageBg),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white, width: .50),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white, width: .5),
+            ),
+            labelStyle: TextStyles.headingTexStyle(
+
+              color: Palette.coloPageBg,
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+              fontFamily: 'Montserrat',
+            )),
+      )),
+    );
+  }
+
+  Widget get companyLogo {
+    return SizedBox(
+      width: 200,
+      height: 200,
+      child: Image.asset("assets/png/logo.png"),
+    );
+  }
+
+  Widget loginButton(double screenWidget) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 0, right: 0),
+      child: SizedBox(
+        width: screenWidget,
+        height: 45,
+        child: PrimaryElevatedBtn(
+            "LOGIN",
+            () async => {
+                  //DashboardPage.start()
+                  loginController.callLoginApi()
+                },
+            borderRadius: 10.0),
+      ),
+    );
+  }
+
+  Widget get skipText {
+    return InkWell(
+      onTap: () {
+        Get.delete<ForgotOtpController>();
+        ForgotPasswordPage.start();
+       // DashboardPage.start();
+      },
       child: SizedBox(
         height: 20,
         child: Text(
-          "MOBILE NUMBER",
+          "Forgot password?",
           style: TextStyles.headingTexStyle(
-            color: MyColors.kColorGrey,
-            fontSize: 15,
-            fontWeight: FontWeight.normal,
+            color: Palette.kColorWhite,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
             fontFamily: 'Montserrat',
           ),
         ),
       ),
-    ),
-  );
-}
-
-Widget get labelText {
-  return SizedBox(
-    height: 20,
-    child: Text(
-      "We'll send you a verification code on the mobile number",
-      style: TextStyles.labelTextStyle(color: Palette.colorTextGrey),
-    ),
-  );
-}
-
-Widget get email {
-  return Padding(
-    padding: const EdgeInsets.only(left: 0, right: 0),
-    child: TextField(
-      controller: loginController.userNameController,
-      textAlign: TextAlign.left,
-      keyboardType: TextInputType.emailAddress,
-      decoration:  InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        prefixIcon: const Icon(Icons.email_rounded),
-        hintText: 'Enter your email ',
-        filled: true,
-        contentPadding: const EdgeInsets.all(16),
-        fillColor: Colors.white,
-      ),
-    ),
-  );
-}
-Widget get password {
-  return Padding(
-    padding: const EdgeInsets.only(left: 0, right: 0),
-    child: TextField(
-      controller: loginController.passwordController,
-      textAlign: TextAlign.left,
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      enableSuggestions: false,
-      autocorrect: false,
-      inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-      decoration:  InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        prefixIcon: const Icon(Icons.lock),
-        hintText: 'Enter you password ',
-        filled: true,
-        contentPadding: const EdgeInsets.all(16),
-        fillColor: Colors.white,
-      ),
-    ),
-  );
-}
-
-Widget get companyLogo {
-  return SizedBox(
-    width: 200,
-    height: 200,
-    child: Image.asset("assets/png/app_logo.png"),
-  );
-}
-
-
-
-Widget  loginButton(double screenWidget) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 0, right: 0),
-    child: SizedBox(
-      width: screenWidget,
-      height: 45,
-      child: PrimaryElevatedBtn(
-          "Login",
-              () async => {
-            DashboardPage.start()
-                //loginController.callLoginApi(type: "5")
-          },
-          borderRadius: 10.0),
-    ),
-  );
-}
-
-Widget get skipText {
-  return InkWell(
-    onTap: () {
-      ForgotPasswordPage.start();
-    },
-    child: SizedBox(
-      height: 20,
-      child: Text(
-        "Forgot password",
-        style: TextStyles.headingTexStyle(
-          color: MyColors.appColor,
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-          fontFamily: 'Montserrat',
-        ),
-      ),
-    ),
-  );
-}
+    );
+  }
 }

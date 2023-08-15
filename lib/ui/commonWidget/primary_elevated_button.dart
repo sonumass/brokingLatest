@@ -1,6 +1,6 @@
+import 'package:broking/utils/palette.dart';
 import 'package:flutter/material.dart';
-
-import '../../theme/my_theme.dart';
+import '../commonwidget/text_style.dart';
 
 class PrimaryElevatedBtn extends StatefulWidget {
   final String _text;
@@ -9,12 +9,16 @@ class PrimaryElevatedBtn extends StatefulWidget {
   final ButtonStyle? buttonStyle;
   final TextStyle? textStyle;
   final double borderRadius;
+  final Color color;
+  final Color textColor;
 
   const PrimaryElevatedBtn(this._text, this._onClicked,
       {this.icon,
       this.buttonStyle,
       this.textStyle,
       this.borderRadius = 8.0,
+        this.color=Palette.kColorWhite,
+        this.textColor=Palette.appColor,
       Key? key})
       : super(key: key);
 
@@ -36,7 +40,7 @@ class _PrimaryElevatedBtnState extends State<PrimaryElevatedBtn> {
     return ElevatedButton(
       onPressed: widget._onClicked,
       child: _text,
-      style: buttonStyle,
+      style: buttonStyle(widget.color),
     );
   }
 
@@ -44,14 +48,19 @@ class _PrimaryElevatedBtnState extends State<PrimaryElevatedBtn> {
     return Text(
       widget._text,
       style: widget.textStyle ??
-          const TextStyle(
-              fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700),
+          TextStyles.headingTexStyle(
+            letterSpacing:1,
+            color: widget.textColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Montserrat',
+          ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
   }
 
-  ButtonStyle get buttonStyle {
+  ButtonStyle  buttonStyle(Color color) {
     return widget.buttonStyle ??
         ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -60,11 +69,11 @@ class _PrimaryElevatedBtnState extends State<PrimaryElevatedBtn> {
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
                 (Set<MaterialState> state) {
               if (state.contains(MaterialState.pressed)) {
-                return MyColors.themeColor;
+                return color;
               } else if (state.contains(MaterialState.disabled)) {
-                return MyColors.themeColor;
+                return color;
               }
-              return MyColors.themeColor;
+              return color;
             }));
   }
 }

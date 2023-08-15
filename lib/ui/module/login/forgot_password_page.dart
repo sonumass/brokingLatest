@@ -1,9 +1,9 @@
 import 'package:broking/ui/module/login/set_password_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:get/get.dart';
-import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
+import '../../../controllers/login/login_forgot_controller.dart';
 import '../../../services/navigator.dart';
 import '../../../theme/my_theme.dart';
 import '../../../utils/palette.dart';
@@ -20,8 +20,7 @@ class ForgotPasswordPage extends AppPageWithAppBar {
     return navigateTo<bool>(routeName);
   }
 
-  final isVerified = false.obs;
-  final _code = "".obs;
+  final controller = Get.put(ForgotOtpController());
 
   @override
   double? get toolbarHeight => 0;
@@ -29,47 +28,122 @@ class ForgotPasswordPage extends AppPageWithAppBar {
   @override
   Widget get body {
     return Scaffold(
-        backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: screenHeight / 3,
-                child: Center(
-                  child: companyLogo,
-                ),
+          child: Container(
+
+            width: screenWidget,
+            height: screenHeight,
+            decoration: const BoxDecoration(
+              // Box decoration takes a gradient
+              gradient: LinearGradient(
+                // Where the linear gradient begins and ends
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                // Add one stop for each color. Stops should increase from 0 to 1
+                stops: [0.30, 0.70],
+                colors: [
+                  // Colors are easy thanks to Flutter's Colors class.
+                  Palette.backgroundBgTopLeft,
+                  Palette.backgroundBgBottomLeft,
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Card(
-                  elevation: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        email,
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        otpField,
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        resendText,
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        loginButton(screenWidget, isVerified),
-                      ],
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 30,),
+                InkWell(onTap: (){Get.back();},child: Align(alignment: Alignment.centerLeft,child:
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 0,top: 20),
+                  child: SvgPicture.asset(width:22,height: 22,'assets/png/back_bar.svg'),
+                ),
+                ),),
+                const SizedBox(height: 90,),
+
+                Center(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30, right: 30,top: 20),
+                      child: Column(
+
+                        children: <Widget>[
+                          SizedBox(
+                            height: screenHeight / 4,
+                            child: Center(
+                              child: companyLogo,
+                            ),
+                          ),
+                          Obx(() => controller.isVerified.value?Text(
+                            "OTP Verification",
+                            style: TextStyles.headingTexStyle(
+                              color: Palette.kColorWhite,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Montserrat',
+                            ),
+                          ):Text(
+                            "Forgot Your Password?",
+                            style: TextStyles.headingTexStyle(
+                              color: Palette.kColorWhite,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Montserrat',
+                            ),
+                          )),
+                          const SizedBox(height: 10,),
+                          Obx(() => controller.isVerified.value?Text("Enter the OTP that has to be sent at your email address",
+                            textAlign: TextAlign.center,
+                            style: TextStyles.headingTexStyle(
+                              color: Palette.kColorWhite,
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Montserrat',
+                            ),
+                          ):Text(
+                            "Enter your email address and you will receive an OTP for reset your password",
+                            textAlign: TextAlign.center,
+                            style: TextStyles.headingTexStyle(
+                              color: Palette.kColorWhite,
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Montserrat',
+                            ),
+                          )),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Obx(() => controller.isVerified.value?const SizedBox.shrink():email),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    otpField,
+
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    loginButton(screenWidget, controller.isVerified),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+
+                                    Obx(() => controller.isVerified.value?resendText:const SizedBox.shrink())
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              )
-            ],
+              ],
+            ),
           ),
         ));
   }
@@ -82,31 +156,33 @@ class ForgotPasswordPage extends AppPageWithAppBar {
   }
 
   Widget get otpField {
-    return VerificationCode(
-      textStyle: TextStyle(fontSize: 20.0, color: Colors.red[900]),
-      keyboardType: TextInputType.number,
-      underlineColor: Colors.amber,
-      // If this is null it will use primaryColor: Colors.red from Theme
-      length: 4,
-      cursorColor: Colors.blue,
-      // If this is null it will default to the ambient
-      // clearAll is NOT required, you can delete it
-      // takes any widget, so you can implement your design
-      clearAll: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          'clear all',
-          style: TextStyle(
-              fontSize: 14.0,
-              decoration: TextDecoration.underline,
-              color: Colors.blue[700]),
-        ),
-      ),
-      onCompleted: (String value) {
-        _code.value = value;
-      },
-      onEditing: (bool value) {},
-    );
+    return Obx(() => controller.isVerified.value
+        ? VerificationCode(
+            textStyle: const TextStyle(fontSize: 20.0, color: Palette.kColorWhite),
+            keyboardType: TextInputType.number,
+            underlineColor: Colors.amber,
+            // If this is null it will use primaryColor: Colors.red from Theme
+            length: 4,
+            cursorColor: Palette.kColorWhite,
+            // If this is null it will default to the ambient
+            // clearAll is NOT required, you can delete it
+            // takes any widget, so you can implement your design
+            clearAll: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'clear all',
+                style: TextStyle(
+                    fontSize: 14.0,
+                    decoration: TextDecoration.underline,
+                    color: Palette.kColorWhite),
+              ),
+            ),
+            onCompleted: (String value) {
+              controller.code.value = value;
+            },
+            onEditing: (bool value) {},
+          )
+        : const SizedBox.shrink());
   }
 
   /*_onOtpCallBack(String otpCode, bool isAutofill) {
@@ -134,7 +210,7 @@ class ForgotPasswordPage extends AppPageWithAppBar {
           Text(
             "Didn't receive otp?",
             style: TextStyles.headingTexStyle(
-              color: MyColors.appColor,
+              color: MyColors.kColorWhite,
               fontSize: 12,
               fontWeight: FontWeight.normal,
               fontFamily: 'Montserrat',
@@ -148,13 +224,18 @@ class ForgotPasswordPage extends AppPageWithAppBar {
               padding: const EdgeInsets.only(top: 7),
               child: SizedBox(
                 height: 20,
-                child: Text(
-                  "Resend",
-                  style: TextStyles.headingTexStyle(
-                    color: MyColors.appColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Montserrat',
+                child: InkWell(
+                  onTap: () {
+                    controller.forgotApi();
+                  },
+                  child: Text(
+                    " Resend",
+                    style: TextStyles.headingTexStyle(
+                      color: Palette.kColorWhite,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Montserrat',
+                    ),
                   ),
                 ),
               ),
@@ -200,33 +281,34 @@ class ForgotPasswordPage extends AppPageWithAppBar {
     return Padding(
       padding: const EdgeInsets.only(left: 0, right: 0),
       child: TextField(
+        cursorColor: Colors.white,
+        style: const TextStyle(color: Colors.white),
         textAlign: TextAlign.left,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          prefixIcon: const Icon(Icons.email_rounded),
-          hintText: 'Enter your email ',
-          filled: true,
-          contentPadding: const EdgeInsets.all(16),
-          fillColor: Colors.white,
+        controller: controller.emailController,
+        decoration:  const InputDecoration(
+            hintText: "Enter your email address",
+            labelText: "Email Address",
+            labelStyle: TextStyle( color: Palette.colorWhite,fontWeight: FontWeight.w100),
+            hintStyle: TextStyle(
+                color: Palette.colorWhite,fontSize: 15,fontWeight: FontWeight.w300
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white,width: .50),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white,width: .5),
+            ),
+
         ),
+
       ),
     );
   }
 
-
-
   Widget get companyLogo {
-    return SizedBox(
-      width: 200,
-      height: 200,
-      child: Image.asset("assets/png/app_logo.png"),
-    );
+    return Obx(() => controller.isVerified.value?SvgPicture.asset(
+        width: 150, height: 150, 'assets/svg/otp.svg'):SvgPicture.asset(
+        width: 150, height: 150, 'assets/svg/lock.svg'));
   }
 
   Widget loginButton(double screenWidget, RxBool isVerified) {
@@ -236,10 +318,12 @@ class ForgotPasswordPage extends AppPageWithAppBar {
         width: screenWidget,
         height: 45,
         child: Obx(() =>
-            PrimaryElevatedBtn(isVerified.value ? "Verify" : "Get OTP", () {
-              if(isVerified.value)ChangePasswordPage.start();
-              isVerified.value = true;
-
+            PrimaryElevatedBtn(isVerified.value ? "VERIFY" : "SUBMIT", () {
+              if (isVerified.value) {
+                controller.otpVerifyApi(controller.code.value);
+              } else {
+                controller.forgotApi();
+              }
             }, borderRadius: 10.0)),
       ),
     );

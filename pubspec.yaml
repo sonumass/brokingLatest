@@ -92,6 +92,18 @@ dependencies:
   sms_otp_auto_verify: ^2.1.0
   flutter_verification_code: ^1.1.6
   toast: ^0.3.0
+  fluttertoast: ^8.2.1
+  expansion_tile_card: ^1.1.0
+  android_alarm_manager_plus: ^2.0.6
+  multiselect: ^0.0.7
+  flutter_local_notifications: ^9.3.1
+  timezone: ^0.8.0
+  flutter_alarm_clock: ^0.0.2
+  file_picker: any
+  pie_chart: ^5.3.2
+  flutter_inappwebview: ^5.7.2+3
+  csc_picker: ^0.2.7
+  add_2_calendar: ^2.2.4
 
 
 
@@ -103,7 +115,7 @@ dev_dependencies:
   flutter_native_splash: ^2.2.5
 
 flutter_native_splash:
-  color: "#ffffff"
+  color: "#8F2960"
   image: "assets/png/app_logo.png"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

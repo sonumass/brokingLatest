@@ -11,11 +11,13 @@ class TextStyles {
     TextDecoration decoration = TextDecoration.none,
     double fontSize = 0,
     String? fontFamily,
+    double? letterSpacing,
     double? height,
   }) {
     return TextStyle(
         fontSize: fontSize == 0 ? 15 : fontSize,
         color: color,
+        letterSpacing:letterSpacing==0.0?0.0:letterSpacing,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontFamily: fontFamily ?? "assets/font/Oswald-Regular.ttf",
@@ -24,6 +26,7 @@ class TextStyles {
   }
 
   static TextStyle labelTextStyle({
+    double? letterSpacing,
     Color color = Palette.colorTextBlack,
     FontWeight fontWeight = FontWeight.normal,
     FontStyle fontStyle = FontStyle.normal,
@@ -33,8 +36,10 @@ class TextStyles {
     double? height,
   }) {
     return TextStyle(
+
         fontSize: fontSize == 0 ? 15 : fontSize,
         color: color,
+        letterSpacing:letterSpacing==0.0?0.0:letterSpacing,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         decoration: decoration,
